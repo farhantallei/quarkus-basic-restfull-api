@@ -15,7 +15,6 @@ public class ItemService {
     return Response.status(Response.Status.OK).entity(Item.findAll().list()).build();
   }
 
-  @Transactional
   public Response getItem(Long id) {
     Item item = Item.findById(id);
 
