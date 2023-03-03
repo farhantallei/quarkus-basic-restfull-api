@@ -22,8 +22,20 @@ import id.kawahedukasi.model.Item;
 public class ItemController {
 
   @GET
-  public Response getItem() {
+  public Response getItems() {
     return Response.status(Response.Status.OK).entity(Item.findAll().list()).build();
+  }
+
+  @GET
+  @Path("/{id}")
+  @Transactional
+  public Response getItem(@PathParam("id") Long id) {
+    Item item = Item.findById(id);
+
+    if (item == null)
+      return Response.status(Response.Status.NOT_FOUND).entity(Map.of("message", "ITEM_NOT_FOUND")).build();
+
+    return Response.status(Response.Status.OK).entity(item).build();
   }
 
   @POST
@@ -65,7 +77,7 @@ public class ItemController {
   @DELETE
   @Path("/{id}")
   @Transactional
-  public Response delete(@PathParam("id") Long id) {
+  public Response deleteItem(@PathParam("id") Long id) {
     Item item = Item.findById(id);
 
     if (item == null)
