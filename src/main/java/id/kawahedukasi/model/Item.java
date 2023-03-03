@@ -7,10 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
@@ -39,21 +40,11 @@ public class Item extends PanacheEntityBase {
   @Column(name = "description", columnDefinition = "TEXT")
   public String description;
 
+  @CreationTimestamp
   @Column(name = "created_at")
   public LocalDateTime createdAt;
 
+  @UpdateTimestamp
   @Column(name = "updated_at")
   public LocalDateTime updatedAt;
-
-  @PrePersist
-  public void prePersist() {
-    LocalDateTime now = LocalDateTime.now();
-    this.createdAt = now;
-    this.updatedAt = now;
-  }
-
-  @PreUpdate
-  public void preUpdate() {
-    this.updatedAt = LocalDateTime.now();
-  }
 }
