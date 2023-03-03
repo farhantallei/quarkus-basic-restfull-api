@@ -1,4 +1,4 @@
-# basic-restfull-api
+# quarkus-basic-restfull-api
 
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
