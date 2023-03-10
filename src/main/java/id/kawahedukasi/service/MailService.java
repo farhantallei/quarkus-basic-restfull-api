@@ -18,6 +18,9 @@ public class MailService {
   @Inject
   ExportService exportService;
 
+  @Inject
+  ScheduleService scheduleService;
+
   public void sendMail(String to) {
     mailer.send(Mail.withText(to, "Quarkus", "Hello, World!"));
   }
@@ -32,5 +35,16 @@ public class MailService {
     File file = exportService.exportCsvItems();
     mailer.send(Mail.withText(to, "Quarkus with Attachment", "CSV File")
         .addAttachment("item_list.csv", file, "text/csv"));
+  }
+
+  public boolean sendGeneratedPdfMail(String to) {
+    byte[] pdf = scheduleService.getGeneratedPdf();
+    if (pdf == null) {
+      return false;
+    } else {
+      mailer.send(Mail.withText(to, "Quarkus with Attachment", "PDF File")
+          .addAttachment("item_list.pdf", pdf, "application/pdf"));
+      return true;
+    }
   }
 }

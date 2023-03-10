@@ -40,4 +40,14 @@ public class MailController {
     mailService.sendCsvMail(request.get("email").toString());
     return Response.ok(Map.of("status", "SUCCESS")).build();
   }
+
+  @POST
+  @Path("/generated/pdf")
+  public Response sendGeneratedPdfMail(Map<String, Object> request) throws IOException {
+    boolean isSent = mailService.sendGeneratedPdfMail(request.get("email").toString());
+    if (isSent == false)
+      return Response.status(Response.Status.BAD_REQUEST).entity(Map.of("status", "PDF NOT GENERATED YET")).build();
+    else
+      return Response.ok(Map.of("status", "SUCCESS")).build();
+  }
 }
